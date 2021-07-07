@@ -19,18 +19,21 @@ if (defined('IN_ADMIN') and IN_ADMIN)
   $show_mobile_app_banner = conf_get_param('show_mobile_app_banner_in_admin', true);
 }
 
+//	_HC:	use of extended_description
 $template->assign(
   array(
     'GALLERY_TITLE' =>
       isset($page['gallery_title']) ?
-        $page['gallery_title'] : $conf['gallery_title'],
+        common_user_language_desc($page['gallery_title']) : common_user_language_desc($conf['gallery_title']),
 
     'PAGE_BANNER' =>
       trigger_change(
         'render_page_banner',
         str_replace(
           '%gallery_title%',
-          $conf['gallery_title'],
+      		isset($page['gallery_title']) ?
+        		common_user_language_desc($page['gallery_title']) : common_user_language_desc($conf['gallery_title']),
+//          $conf['gallery_title'],
           isset($page['page_banner']) ? $page['page_banner'] : $conf['page_banner']
           )
         ),
