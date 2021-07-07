@@ -2,6 +2,7 @@
 /_data
 /plugins/*
 !/plugins/index.php
+!/plugins/steghide/
 /themes/*
 !/themes/index.php
 !/themes/default
