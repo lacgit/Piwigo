@@ -148,7 +148,7 @@ function default_picture_content($content, $element_info)
 
   if (isset($_COOKIE['picture_deriv']))
   {
-    if ( array_key_exists($_COOKIE['picture_deriv'], ImageStdParams::get_defined_type_map_for_dropdown()) )
+    if ( array_key_exists($_COOKIE['picture_deriv'], ImageStdParams::get_defined_type_map()) )
     {
       pwg_set_session_var('picture_deriv', $_COOKIE['picture_deriv']);
     }
@@ -164,7 +164,7 @@ function default_picture_content($content, $element_info)
   {
     if ($type==IMG_SQUARE || $type==IMG_THUMB)
       continue;
-    if (!array_key_exists($type, ImageStdParams::get_defined_type_map_for_dropdown()))
+    if (!array_key_exists($type, ImageStdParams::get_defined_type_map()))
       continue;
     $url = $derivative->get_url();
     if (isset($added[$url]))
@@ -758,9 +758,6 @@ elseif ($conf['picture_slideshow_icon'])
     );
 }
 
-global $conf, $user;
-if (isset($conf['min_navigation_button_level']) && $user['level'] >= $conf['min_navigation_button_level'])
-{
 $template->assign(
   array(
     'SECTION_TITLE' => $page['section_title'],
@@ -774,23 +771,6 @@ $template->assign(
     'DISPLAY_NAV_THUMB' => $conf['picture_navigation_thumb']
     )
   );
-}
-else
-{
-$template->assign(
-  array(
-    'SECTION_TITLE' => $page['section_title'],
-    'PHOTO' => $title_nb,
-    'IS_HOME' => ('categories'==$page['section'] and !isset($page['category']) ),
-
-    'LEVEL_SEPARATOR' => $conf['level_separator'],
-
-    'U_UP' => $url_up,
-    'DISPLAY_NAV_BUTTONS' => false,
-    'DISPLAY_NAV_THUMB' => $conf['picture_navigation_thumb']
-    )
-  );
-}
 
 if ($conf['picture_metadata_icon'])
 {
@@ -877,7 +857,7 @@ if (isset($picture['current']['comment'])
 // author
 if (!empty($picture['current']['author']))
 {
-  $infos['INFO_AUTHOR'] = common_user_language_desc($picture['current']['author']);
+  $infos['INFO_AUTHOR'] = $picture['current']['author'];
 }
 
 // creation date
@@ -914,8 +894,8 @@ $infos['INFO_POSTED_DATE'] = '<a href="'.$url.'" rel="nofollow">'.$val.'</a>';
 // size in pixels
 if ($picture['current']['src_image']->is_original() and isset($picture['current']['width']) )
 {
-  $infos['INFO_DIMENSIONS'] = '';
-//    $picture['current']['width'].'*'.$picture['current']['height'];
+  $infos['INFO_DIMENSIONS'] =
+    $picture['current']['width'].'*'.$picture['current']['height'];
 }
 
 // filesize
@@ -934,34 +914,30 @@ $template->assign($infos);
 $template->assign('display_info', unserialize($conf['picture_informations']));
 
 // related tags
-if (isset($conf['min_show_tag_level']) and isset($user['level']) and
-		$conf['min_show_tag_level'] < $user['level'])
+$tags = get_common_tags( array($page['image_id']), -1);
+if ( count($tags) )
 {
-	$tags = get_common_tags( array($page['image_id']), -1);
-	if ( count($tags) )
-	{
- 	 foreach ($tags as $tag)
- 	 {
- 	   $template->append(
- 	       'related_tags',
- 	       array_merge( $tag,
- 	         array(
- 	           'URL' => make_index_url(
- 	                     array(
- 	                       'tags' => array($tag)
- 	                       )
- 	                     ),
- 	           'U_TAG_IMAGE' => duplicate_picture_url(
- 	                     array(
- 	                       'section' => 'tags',
- 	                       'tags' => array($tag)
- 	                       )
- 	                   )
- 	         )
- 	       )
- 	     );
- 	 }
-	}
+  foreach ($tags as $tag)
+  {
+    $template->append(
+        'related_tags',
+        array_merge( $tag,
+          array(
+            'URL' => make_index_url(
+                      array(
+                        'tags' => array($tag)
+                        )
+                      ),
+            'U_TAG_IMAGE' => duplicate_picture_url(
+                      array(
+                        'section' => 'tags',
+                        'tags' => array($tag)
+                        )
+                    )
+          )
+        )
+      );
+  }
 }
 
 // related categories

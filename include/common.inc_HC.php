@@ -292,14 +292,5 @@ if ( !empty($conf['original_url_protection']) )
   add_event_handler('get_element_url', 'get_element_url_protection_handler');
   add_event_handler('get_src_image_url', 'get_src_image_url_protection_handler');
 }
-
-//	_HC:	to simplify the use of extended_description for multi-language
-function common_user_language_desc($text)
-{
-	if (function_exists('get_user_language_desc'))
-		return get_user_language_desc($text);
-	else
-		return $text;
-}
 trigger_notify('init');
 ?>

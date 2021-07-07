@@ -125,8 +125,6 @@ class pwg_image
 
 		$this->image->write($destination_filepath);
 
-		//	system("echo " . $destination_filepath . " >> /tmp/hcag.log");
-
 		// everything should be OK if we are here!
 		return $this->get_resize_result($destination_filepath, $resize_dimensions['width'], $resize_dimensions['height'], $starttime);
 	}
@@ -645,18 +643,6 @@ class image_ext_imagick implements imageInterface
 			foreach ($returnarray as $line)
 				trigger_error($line, E_USER_WARNING);
 		}
-
-		//	_HC: steghide can be put here
-		$coverfilename = realpath($dest['dirname']).'/'.$dest['basename'];
-
-//		trigger_notify('SH_steghide_embed', $coverfilename);
-
-//		$logger->debug('function steghide_embed exists: '.
-//				function_exists('steghide_embed'), 'image.class.php');
-		if (function_exists('steghide_embed')) {
-			steghide_embed($coverfilename);
-		}
-
 		return is_array($returnarray);
 	}
 }

@@ -794,14 +794,12 @@ $conf['light_slideshow'] = true;
 // the local data directory is used to store data such as compiled templates,
 // plugin variables, combined css/javascript or resized images. Beware of
 // mandatory trailing slash.
-//  _HC: copy from hcag
-$conf['show_powered_by'] = false;
-$conf['data_location'] = '_hdatac/';
+$conf['data_location'] = '_data/';
 
 // where should the API/UploadForm add photos? This path must be relative to
 // the Piwigo installation directory (but can be outside, as long as it's
 // reachable from your webserver).
-$conf['upload_dir'] = './huploadc';
+$conf['upload_dir'] = './upload';
 
 // where should the user be guided when there is no photo in his gallery yet?
 $conf['no_photo_yet_url'] = 'admin.php?page=photos_add';

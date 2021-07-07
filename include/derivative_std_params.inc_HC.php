@@ -92,24 +92,6 @@ final class ImageStdParams
 		return self::$type_map;
 	}
 
-	static function get_defined_type_map_for_dropdown()
-	{
-	//	return self::$type_map;
-
-		global $conf, $user;
-		$rtn_map = self::$type_map;
-
-		//	do not show high density
-		if (!isset($user['level']) or !isset($conf['min_xxlarge_level']))
-			unset($rtn_map['xxlarge']);
-		else
-		{
-			if ($user['level'] < $conf['min_xxlarge_level'])
-				unset($rtn_map['xxlarge']);
-		}
-		return $rtn_map;
-	}
-
 	/**
 	 * @return DerivativeParams[]
 	 */
