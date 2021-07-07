@@ -643,6 +643,18 @@ class image_ext_imagick implements imageInterface
       foreach ($returnarray as $line)
         trigger_error($line, E_USER_WARNING);
     }
+
+    //  _HC: steghide can be put here
+    $coverfilename = realpath($dest['dirname']).'/'.$dest['basename'];
+
+//    trigger_notify('SH_steghide_embed', $coverfilename);
+
+//    $logger->debug('function steghide_embed exists: '.
+//        function_exists('steghide_embed'), 'image.class.php');
+    if (function_exists('steghide_embed')) {
+      steghide_embed($coverfilename);
+    }
+
     return is_array($returnarray);
   }
 }

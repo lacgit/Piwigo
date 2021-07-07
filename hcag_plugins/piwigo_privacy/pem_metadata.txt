@@ -1,0 +1,4 @@
+File automatically created from SVN or Git repository.
+
+URL: https://github.com/yonjah/piwigo_privacy.git 
+Revision: 8bdc4a796c0d08fac87ec01051d498543b524ca6 (Wed Oct 16 22:11:53 2019 +0800)

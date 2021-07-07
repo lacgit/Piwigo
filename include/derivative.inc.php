@@ -465,7 +465,10 @@ final class DerivativeImage
     $size = $this->get_size();
     if ($size)
     {
-      return $size[0].' x '.$size[1];
+    //  return $size[0].' x '.$size[1];
+      $x=$size[0]<100 ? 100 : floor( $size[0] / 100 ) * 100;
+      $y=$size[1]<100 ? 100 : floor( $size[1] / 100 ) * 100;
+      return $x.' x '.$y;
     }
   }
 

@@ -491,12 +491,21 @@ SELECT COUNT(*)
     $categories = array($_SESSION['bulk_manager_filter']['category']);
   }
 
-  $query = '
+//  _HC:  for some reason if ws.php is not turnon, $categories is empty
+  if (isset($categories) and !empty(implode(',', $categories)))
+  {
+//    global $logger;
+//    foreach ($categories as $a => $b)
+//    {
+//      $logger->debug('categories: '.$a.' => '.$b, 'batch_manager');
+//    }
+    $query = '
  SELECT DISTINCT(image_id)
    FROM '.IMAGE_CATEGORY_TABLE.'
    WHERE category_id IN ('.implode(',', $categories).')
  ;';
   $filter_sets[] = query2array($query, null, 'image_id');
+  }
 }
 
 if (isset($_SESSION['bulk_manager_filter']['level']))
